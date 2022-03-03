@@ -7,6 +7,14 @@ import math
 from ur5e_control.msg import Plan
 from geometry_msgs.msg import Twist
 
+
+def setup_point(*points):
+	plan_point = Twist()
+	plan_point.linear.x, plan_point.linear.y, plan_point.linear.z, plan_point.angular.x, plan_point.angular.y, plan_point.angular.z = points
+	return plan_point
+
+
+
 if __name__ == '__main__':
 	# initialize the node
 	rospy.init_node('simple_planner', anonymous = True)
@@ -17,28 +25,18 @@ if __name__ == '__main__':
 
 	# define a plan variable
 	plan = Plan()
-	plan_point1 = Twist()
-	# just a quick solution to send two target points
-	# define a point close to the initial position
-	plan_point1.linear.x = -0.7
-	plan_point1.linear.y = -0.23
-	plan_point1.linear.z = 0.363
-	plan_point1.angular.x = 1.57
-	plan_point1.angular.y = 0.0
-	plan_point1.angular.z = 0.0
-	# add this point to the plan
-	plan.points.append(plan_point1)
-	
-	plan_point2 = Twist()
-	# define a point away from the initial position
-	plan_point2.linear.x = -0.6
-	plan_point2.linear.y = -0.23
-	plan_point2.linear.z = 0.25
-	plan_point2.angular.x = 1.57
-	plan_point2.angular.y = 0.0
-	plan_point2.angular.z = 0.0
-	# add this point to the plan
-	plan.points.append(plan_point2)
+	# declare first point to move to
+	plan.points.append(setup_point(-.5, -.14, .4, 3.14, 0.0, 1.5))
+	# drop arm to pick up object
+	plan.points.append(setup_point(-.5, -.14, 0, 3.14, 0.0, 1.5))
+	# pick arm back up
+	plan.points.append(setup_point(-.5, -.14, .5, 3.14, 0.0, 1.5))
+	# move to position above target
+	plan.points.append(setup_point(-.5, -.6, .5, 3.14, 0.0, 1.5))
+	# drop arm with object
+	plan.points.append(setup_point(-.5, -.6, 0, 3.14, 0.0, 1.5))
+	# pick arm back up
+	plan.points.append(setup_point(-.5, -.6, .5, 3.14, 0.0, 1.5))
 
 	
 	
