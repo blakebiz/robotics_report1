@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(ur5e_control)
+project(robotics_report1)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -9,20 +9,18 @@ project(ur5e_control)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
+  message_generation
   roscpp
   roslib
   rospy
   sensor_msgs
-  std_msgs
-  trajectory_msgs
   tf
-  message_generation
+  trajectory_msgs
 )
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
-find_package( Eigen3 REQUIRED )
-find_package( orocos_kdl REQUIRED )
+
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -54,10 +52,11 @@ find_package( orocos_kdl REQUIRED )
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
- add_message_files(
-   FILES
-   Plan.msg
-)
+# add_message_files(
+#   FILES
+#   Message1.msg
+#   Message2.msg
+# )
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -74,10 +73,10 @@ find_package( orocos_kdl REQUIRED )
 # )
 
 ## Generate added messages and services with any dependencies listed here
- generate_messages(
-   DEPENDENCIES
-   geometry_msgs   
-)
+# generate_messages(
+#   DEPENDENCIES
+#   geometry_msgs#   sensor_msgs#   trajectory_msgs
+# )
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -110,8 +109,8 @@ find_package( orocos_kdl REQUIRED )
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES ur5e_control
-  CATKIN_DEPENDS geometry_msgs roscpp roslib rospy sensor_msgs std_msgs trajectory_msgs message_runtime
+#  LIBRARIES robotics_report1
+#  CATKIN_DEPENDS geometry_msgs message_generation roscpp roslib rospy sensor_msgs tf trajectory_msgs
 #  DEPENDS system_lib
 )
 
@@ -122,13 +121,13 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-  include
-  ${catkin_INCLUDE_DIRS} ${EIGEN3_INCLUDE_DIRS}
+# include
+  ${catkin_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/ur5e_control.cpp
+#   src/${PROJECT_NAME}/robotics_report1.cpp
 # )
 
 ## Add cmake target dependencies of the library
@@ -139,7 +138,7 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/ur5e_control_node.cpp)
+# add_executable(${PROJECT_NAME}_node src/robotics_report1_node.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -203,18 +202,10 @@ include_directories(
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_ur5e_control.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_robotics_report1.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
-
-
-
-add_executable(ur5e_controller src/ur5e_controller.cpp)
-target_link_libraries(ur5e_controller ${catkin_LIBRARIES} orocos-kdl)
-
-add_executable(task_space_traj src/task_space_traj.cpp)
-target_link_libraries(task_space_traj ${catkin_LIBRARIES} ReflexxesTypeII)
